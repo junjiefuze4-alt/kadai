@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>本棚の部屋</title>
+    <link rel="stylesheet" href="src.css" />
+    <link rel="stylesheet" href="bookshelf.css" />
+  </head>
+
+  <body>
+    <div class="bookshelf-wrapper">
+      <div class="bookshelf">
+        <!-- ▼ 紙の部屋（光らせない） -->
+        <a href="puzzle1.html" class="book book-home">紙の部屋</a>
+
+        <!-- ▼ 断片の部屋（光らせる対象） -->
+        <a href="puzzle2.html" class="book book-next">断片の部屋</a>
+      </div>
+    </div>
+
+    <!-- ▼ ポップアップ -->
+    <div id="popup" class="popup">
+      ……さっきの証言、やっぱり何かおかしい。 図書室で確かめた方がいい気がする。
+    </div>
+
+    <script>
+      const key = localStorage.getItem("correctBookKey");
+
+      if (key === "H") {
+        const target = document.querySelector(".book-next");
+        if (target) target.classList.add("glow");
+      }
+
+      window.addEventListener("load", () => {
+        const popup = document.getElementById("popup");
+        setTimeout(() => popup.classList.add("show"), 1000);
+        setTimeout(() => popup.classList.remove("show"), 4000);
+      });
+    </script>
+  </body>
+</html>
