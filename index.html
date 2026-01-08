@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>脱出ゲーム - 入り口</title>
+    <link rel="stylesheet" href="src.css" />
+    <link rel="stylesheet" href="index.css" />
+    <style>
+      body {
+        background: #111;
+        font-family: "Yu Mincho", serif;
+        color: #eee;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .container {
+        text-align: center;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 40px 60px;
+        border-radius: 12px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+      }
+
+      h1 {
+        font-size: 28px;
+        margin-bottom: 20px;
+        letter-spacing: 0.1em;
+      }
+
+      .lead {
+        font-size: 18px;
+        margin-bottom: 30px;
+        line-height: 1.8;
+      }
+
+      .form-block {
+        margin-bottom: 20px;
+      }
+
+      input[type="text"] {
+        padding: 8px 12px;
+        font-size: 16px;
+        border: 1px solid #555;
+        border-radius: 6px;
+        background: #222;
+        color: #fff;
+        transition: 0.3s;
+      }
+
+      input[type="text"]:focus {
+        box-shadow: 0 0 10px gold;
+        border-color: gold;
+      }
+
+      button {
+        margin-left: 10px;
+        padding: 8px 16px;
+        font-size: 16px;
+        background: #444;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      button:hover {
+        background: #666;
+      }
+
+      .message {
+        font-size: 16px;
+        color: #f88;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>脱出ゲーム</h1>
+
+      <p class="lead">
+        「時の扉を開く鍵は、今を示す数字」<br />
+        正しい数字を入力すると、本棚の中で「正しい本」が光ります。
+      </p>
+
+      <div class="form-block">
+        <label for="answer">答え：</label>
+        <input type="text" id="answer" />
+        <button id="submit-btn">送信</button>
+      </div>
+
+      <p id="message" class="message"></p>
+    </div>
+
+    <script>
+      document
+        .getElementById("submit-btn")
+        .addEventListener("click", function () {
+          const value = document.getElementById("answer").value.trim();
+          const currentYear = new Date().getFullYear();
+
+          if (value === String(currentYear)) {
+            localStorage.setItem("correctBookKey", "T");
+            location.href = "hon .html";
+          } else {
+            document.getElementById("message").textContent =
+              "違うようです……もう一度考えてみよう。";
+          }
+        });
+    </script>
+  </body>
+</html>
