@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>本棚の部屋</title>
+    <link rel="stylesheet" href="src.css" />
+    <link rel="stylesheet" href="bookshelf3.css" />
+  </head>
+
+  <body>
+    <div class="bookshelf-wrapper">
+      <div class="bookshelf">
+        <!-- ▼ 紙の部屋 -->
+        <a href="puzzle1.html" class="book book-home">紙の部屋</a>
+
+        <!-- ▼ 断片の部屋 -->
+        <a href="puzzle2.html" class="book book-next">断片の部屋</a>
+
+        <!-- ▼ 記憶の部屋 -->
+        <a href="puzzle3.html" class="book book-memory">記憶の部屋</a>
+
+        <!-- ▼ 新しく追加した部屋 -->
+        <a href="puzzle4.html" class="book book-trace">追跡の部屋</a>
+      </div>
+    </div>
+
+    <!-- ▼ ポップアップ -->
+    <div id="popup" class="popup">
+      図書室の記録と断片……つながりがある。
+      次に開くべき本が、きっとどこかにある。
+    </div>
+
+    <script>
+      // ▼ 追跡の部屋を強制で光らせる
+      window.addEventListener("load", () => {
+        const target = document.querySelector(".book-trace");
+        if (target) target.classList.add("glow");
+      });
+
+      // ▼ ポップアップ演出
+      window.addEventListener("load", () => {
+        const popup = document.getElementById("popup");
+        setTimeout(() => popup.classList.add("show"), 1000);
+        setTimeout(() => popup.classList.remove("show"), 4000);
+      });
+    </script>
+  </body>
+</html>
