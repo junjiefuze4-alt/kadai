@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>回答欄</title>
+
+    <!-- 共通デザインCSS -->
+    <link rel="stylesheet" href="src.css" />
+
+    <!-- このページ専用のCSS -->
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>回答欄</h1>
+
+      <p class="lead">
+        この事件の犯人は誰？<br />
+        正解すると、本棚の中で「正しい本」が光ります。
+      </p>
+
+      <!-- 入力フォーム部分 -->
+      <div class="form-block">
+        <label for="answer">答え：</label>
+        <input type="text" id="answer" />
+        <button id="submit-btn">送信</button>
+      </div>
+
+      <!-- 間違ったときのメッセージ表示 -->
+      <p id="message" class="message"></p>
+    </div>
+
+    <script>
+      // 送信ボタンが押されたときの処理
+      document
+        .getElementById("submit-btn")
+        .addEventListener("click", function () {
+          // 入力された値を取得（前後の空白を削除）
+          const value = document.getElementById("answer").value.trim();
+
+          // ★ 正解判定（仮に「1986」を正解に設定）
+          if (
+            value === "霧島紗月" ||
+            value === "霧島 紗月" ||
+            value === "霧島  紗月" || // 全角スペース対策
+            value === "きりしまさつき" ||
+            value === "キリシマサツキ"
+          ) {
+            localStorage.setItem("correctBookKey", "H");
+            location.href = "hon2.html";
+          } else {
+            document.getElementById("message").textContent =
+              "違うようです……もう一度考えてみよう。";
+          }
+        });
+    </script>
+  </body>
+</html>
