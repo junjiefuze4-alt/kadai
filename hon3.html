@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>本棚の部屋</title>
+    <link rel="stylesheet" href="src.css" />
+    <link rel="stylesheet" href="bookshelf2.css" />
+  </head>
+
+  <body>
+    <div class="bookshelf-wrapper">
+      <div class="bookshelf">
+        <!-- ▼ 紙の部屋 -->
+        <a href="puzzle1.html" class="book book-home">紙の部屋</a>
+
+        <!-- ▼ 断片の部屋 -->
+        <a href="puzzle2.html" class="book book-next">断片の部屋</a>
+
+        <!-- ▼ 記憶の部屋（今回追加） -->
+        <a href="puzzle3.html" class="book book-memory">記憶の部屋</a>
+      </div>
+    </div>
+
+    <!-- ▼ ポップアップ -->
+    <div id="popup" class="popup">
+      ……さっき見つけた断片、どうして図書室の記録に触れているんだろう。
+      一度、図書室を調べ直した方がよさそうだ。
+    </div>
+
+    <script>
+      // ▼ 記憶の部屋だけ強制で光らせる
+      window.addEventListener("load", () => {
+        const target = document.querySelector(".book-memory");
+        if (target) target.classList.add("glow");
+      });
+
+      // ▼ ポップアップ演出
+      window.addEventListener("load", () => {
+        const popup = document.getElementById("popup");
+        setTimeout(() => popup.classList.add("show"), 1000);
+        setTimeout(() => popup.classList.remove("show"), 4000);
+      });
+    </script>
+  </body>
+</html>
