@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>図書室の記録</title>
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: #222;
+        font-family: "Yu Mincho", serif;
+        color: #eee;
+      }
+
+      .pc-room {
+        max-width: 900px;
+        margin: 60px auto;
+        padding: 30px;
+        background: rgba(255, 255, 240, 0.9);
+        border-radius: 12px;
+        color: #333;
+      }
+
+      .intro {
+        font-size: 18px;
+        line-height: 1.8;
+        margin-bottom: 30px;
+      }
+
+      .pc-screen {
+        background: #111;
+        color: #0f0;
+        padding: 20px;
+        border-radius: 8px;
+        font-family: "Consolas", monospace;
+        min-height: 220px;
+      }
+
+      #bootText {
+        font-size: 18px;
+        margin-bottom: 16px;
+      }
+
+      .slot-area {
+        display: flex;
+        gap: 10px;
+        margin: 10px 0 20px;
+      }
+
+      .slot {
+        width: 70px;
+        height: 90px;
+        background: #222;
+        color: #0f0;
+        font-size: 48px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
+        user-select: none;
+      }
+
+      button {
+        padding: 8px 20px;
+        font-size: 16px;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        margin-right: 10px;
+      }
+
+      button:hover {
+        background: #ddd;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .log h2 {
+        color: #0f0;
+        margin-bottom: 10px;
+      }
+
+      .note {
+        color: #f88;
+        margin-top: 10px;
+      }
+
+      #nextBtn {
+        margin-top: 20px;
+        padding: 10px 24px;
+        font-size: 18px;
+        background: #0f0;
+        color: #111;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      #nextBtn:hover {
+        background: #9f9;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="pc-room">
+      <div class="intro">
+        貸出カードの裏に残っていた、薄い鉛筆の跡。<br />
+        「4/26　図書室」<br /><br />
+        その日付を見た瞬間、部屋の奥で古いパソコンが低く唸り始めた。<br />
+        画面には、数字を揃えろと言わんばかりの無機質なインターフェースが浮かんでいる。
+      </div>
+
+      <div class="pc-screen">
+        <div id="bootText">アクセスキーを入力してください</div>
+
+        <div class="slot-area">
+          <div class="slot" data-index="0">0</div>
+          <div class="slot" data-index="1">0</div>
+          <div class="slot" data-index="2">0</div>
+          <div class="slot" data-index="3">0</div>
+        </div>
+
+        <button id="spinBtn">スピン</button>
+        <button id="slotCheck">起動</button>
+
+        <div class="log hidden" id="logBox">
+          <h2>【図書室入退室ログ：4月26日】</h2>
+          <p>12:40　久賀玲奈　入室</p>
+          <p>—:—　退室記録なし</p>
+          <p class="note">
+            ※ この日を最後に、彼女の姿は確認されていない。<br />
+            ※ 貸出カードの記録は、一部が手書きで上書きされている。
+          </p>
+
+          <button id="nextBtn" class="hidden">次の場所へ進む</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const slots = document.querySelectorAll(".slot");
+      const winNumbers = ["0", "4", "2", "6"];
+      let intervals = [];
+
+      function spinSlot(index) {
+        intervals[index] = setInterval(() => {
+          let num = parseInt(slots[index].textContent);
+          num = (num + 1) % 10;
+          slots[index].textContent = num;
+        }, 40);
+      }
+
+      function stopSlot(index, targetNumber) {
+        let delay = 40;
+
+        const slowDown = setInterval(() => {
+          clearInterval(intervals[index]);
+
+          intervals[index] = setInterval(() => {
+            let num = parseInt(slots[index].textContent);
+            num = (num + 1) % 10;
+            slots[index].textContent = num;
+          }, delay);
+
+          delay += 40;
+
+          if (delay > 300) {
+            clearInterval(intervals[index]);
+            slots[index].textContent = targetNumber;
+            clearInterval(slowDown);
+          }
+        }, 300);
+      }
+
+      document.getElementById("spinBtn").addEventListener("click", () => {
+        const isWin = Math.random() < 0.2;
+
+        const randomNumbers = [
+          Math.floor(Math.random() * 10).toString(),
+          Math.floor(Math.random() * 10).toString(),
+          Math.floor(Math.random() * 10).toString(),
+          Math.floor(Math.random() * 10).toString(),
+        ];
+
+        const result = isWin ? winNumbers : randomNumbers;
+
+        for (let i = 0; i < 4; i++) {
+          spinSlot(i);
+        }
+
+        setTimeout(() => stopSlot(0, result[0]), 1000);
+        setTimeout(() => stopSlot(1, result[1]), 1500);
+        setTimeout(() => stopSlot(2, result[2]), 2000);
+        setTimeout(() => stopSlot(3, result[3]), 2500);
+      });
+
+      document.getElementById("slotCheck").addEventListener("click", () => {
+        const values = [...slots].map((s) => s.textContent);
+
+        if (values.join("") === winNumbers.join("")) {
+          document.getElementById("bootText").textContent =
+            "ログを復元しています……";
+
+          setTimeout(() => {
+            document.querySelector(".slot-area").classList.add("hidden");
+            document.getElementById("spinBtn").classList.add("hidden");
+            document.getElementById("slotCheck").classList.add("hidden");
+            document.getElementById("bootText").classList.add("hidden");
+            document.getElementById("logBox").classList.remove("hidden");
+
+            document.getElementById("nextBtn").classList.remove("hidden");
+          }, 1000);
+        } else {
+          alert("数字が揃っていません");
+        }
+      });
+
+      document.getElementById("nextBtn").addEventListener("click", () => {
+        window.location.href = "hon4.html";
+      });
+    </script>
+  </body>
+</html>
