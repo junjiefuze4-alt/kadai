@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>本棚の部屋</title>
+    <link rel="stylesheet" href="src.css" />
+    <link rel="stylesheet" href="bookshelf5.css" />
+  </head>
+
+  <body>
+    <div class="bookshelf-wrapper">
+      <div class="bookshelf">
+        <!-- ▼ 紙の部屋 -->
+        <a href="puzzle1.html" class="book book-home">紙の部屋</a>
+
+        <!-- ▼ 断片の部屋 -->
+        <a href="puzzle2.html" class="book book-next">断片の部屋</a>
+
+        <!-- ▼ 記憶の部屋 -->
+        <a href="puzzle3.html" class="book book-memory">記憶の部屋</a>
+
+        <!-- ▼ 追跡の部屋 -->
+        <a href="puzzle4.html" class="book book-trace">追跡の部屋</a>
+
+        <!-- ▼ 開いていた棚 -->
+        <a href="puzzle5.html" class="book book-trace2">開いた部屋</a>
+
+        <!-- ▼ おまけ（新規追加） -->
+        <a href="extra.html" class="book book-extra">おまけ</a>
+      </div>
+    </div>
+
+    <!-- ▼ ポップアップ -->
+    <div id="popup" class="popup">おまけがあります。</div>
+
+    <script>
+      // ▼ どの部屋を光らせるかを localStorage で管理
+      const key = localStorage.getItem("correctBookKey");
+
+      // T → 追跡の部屋を光らせる
+      if (key === "T") {
+        const target = document.querySelector(".book-trace");
+        if (target) target.classList.add("glow");
+      }
+
+      // T2 → 開いていた棚を光らせる
+      if (key === "T2") {
+        const target = document.querySelector(".book-trace2");
+        if (target) target.classList.add("glow");
+      }
+
+      // T3 → おまけを光らせる（クリア後）
+      if (key === "T3") {
+        const target = document.querySelector(".book-extra");
+        if (target) target.classList.add("glow");
+      }
+
+      // ▼ ポップアップ演出
+      window.addEventListener("load", () => {
+        const popup = document.getElementById("popup");
+        setTimeout(() => popup.classList.add("show"), 1000);
+        setTimeout(() => popup.classList.remove("show"), 4000);
+      });
+    </script>
+  </body>
+</html>
